@@ -23,11 +23,15 @@ import org.apache.sling.api.SlingHttpServletRequest;
 import org.apache.sling.api.SlingHttpServletResponse;
 import org.osgi.annotation.versioning.ConsumerType;
 
+import com.day.cq.dam.api.Asset;
+
 import javax.servlet.ServletException;
 import java.io.IOException;
+import java.net.URI;
 import java.util.Collections;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 import java.util.Set;
 
 /**
@@ -87,10 +91,30 @@ public interface AssetRenditionDispatcher {
      */
     void dispatch(SlingHttpServletRequest request, SlingHttpServletResponse response) throws IOException, ServletException;
 
+    
+    /**
+     * 
+     * @param parameters
+     * @return
+     */
+    AssetRendition getRendition(Asset asset, AssetRenditionParameters parameters);
+    
+    
     /**
      * Ideally a rendition dispatcher instances returns renditions that apply to all types returned bu this method.
      *
      * @return a list of Rendition Types this rendition Dispatcher will return;
      */
     default List<String> getTypes() { return Collections.EMPTY_LIST; }
+    
+    
+    public interface AssetRendition {
+        
+        URI getBinaryUri();
+        
+        Optional<Long> getSize();
+        
+        String getMimeType();
+
+    }
 }

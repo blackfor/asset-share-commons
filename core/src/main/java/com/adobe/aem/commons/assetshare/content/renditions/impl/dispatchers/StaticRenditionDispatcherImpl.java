@@ -20,6 +20,7 @@
 package com.adobe.aem.commons.assetshare.content.renditions.impl.dispatchers;
 
 import com.adobe.aem.commons.assetshare.content.renditions.AssetRenditionDispatcher;
+import com.adobe.aem.commons.assetshare.content.renditions.AssetRenditionDispatcher.AssetRendition;
 import com.adobe.aem.commons.assetshare.content.renditions.AssetRenditionParameters;
 import com.adobe.aem.commons.assetshare.content.renditions.AssetRenditions;
 import com.adobe.aem.commons.assetshare.content.renditions.download.impl.AssetRenditionDownloadRequest;
@@ -42,6 +43,7 @@ import org.slf4j.LoggerFactory;
 
 import javax.servlet.ServletException;
 import java.io.IOException;
+import java.net.URI;
 import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.regex.Pattern;
@@ -108,6 +110,35 @@ public class StaticRenditionDispatcherImpl extends AbstractRenditionDispatcherIm
         }
 
         return Collections.EMPTY_LIST;
+    }
+
+    @Override
+    public AssetRendition getRendition(Asset asset, AssetRenditionParameters parameters) {
+        AssetRendition answer = null;   
+        
+        
+        final Rendition rendition = asset.getRendition(new PatternRenditionPicker(mappings.get(parameters.getRenditionName())));
+        if (rendition != null) {
+            answer = new AssetRendition() {
+
+                @Override
+                public URI getBinaryUri() {
+                    return URI.create(rendition.getPath());
+                }
+
+                @Override
+                public Optional<Long> getSize() {
+                    return Optional.of(rendition.getSize());
+                }
+
+                @Override
+                public String getMimeType() {     
+                    return rendition.getMimeType();
+                }
+            };
+        }
+        
+        return answer;
     }
 
     @Override

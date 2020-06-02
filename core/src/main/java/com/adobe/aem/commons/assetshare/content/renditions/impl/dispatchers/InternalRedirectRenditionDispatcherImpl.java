@@ -22,8 +22,10 @@ package com.adobe.aem.commons.assetshare.content.renditions.impl.dispatchers;
 import com.adobe.aem.commons.assetshare.content.renditions.AssetRenditionDispatcher;
 import com.adobe.aem.commons.assetshare.content.renditions.AssetRenditionParameters;
 import com.adobe.aem.commons.assetshare.content.renditions.AssetRenditions;
+import com.adobe.aem.commons.assetshare.content.renditions.AssetRenditionDispatcher.AssetRendition;
 import com.adobe.aem.commons.assetshare.util.impl.ExtensionOverrideRequestWrapper;
 import com.day.cq.commons.PathInfo;
+import com.day.cq.dam.api.Asset;
 import com.day.text.Text;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.sling.api.SlingHttpServletRequest;
@@ -108,6 +110,14 @@ public class InternalRedirectRenditionDispatcherImpl extends AbstractRenditionDi
         return Collections.EMPTY_LIST;
     }
 
+    @Override
+    public AssetRendition getRendition(Asset asset, AssetRenditionParameters parameters) {
+       
+        // TODO
+        return null;
+    }
+    
+    
     @Override
     public void dispatch(SlingHttpServletRequest request, SlingHttpServletResponse response) throws IOException, ServletException {
         final AssetRenditionParameters parameters = new AssetRenditionParameters(request);

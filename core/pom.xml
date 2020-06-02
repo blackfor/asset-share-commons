@@ -177,6 +177,12 @@ Bundle-DocURL:
             <artifactId>uber-jar</artifactId>
             <classifier>apis</classifier>
         </dependency>
+        
+        <dependency>
+            <groupId>com.day.cq.dam</groupId>
+            <artifactId>cq-dam-api</artifactId>
+            <version>6.1.53-SNAPSHOT</version>
+        </dependency>
         <dependency>
             <groupId>org.apache.sling</groupId>
             <artifactId>org.apache.sling.models.api</artifactId>

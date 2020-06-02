@@ -43,13 +43,13 @@ import java.util.Iterator;
 import java.util.List;
 
 @Model(
-        adaptables = {SlingHttpServletRequest.class},
+        adaptables = {SlingHttpServletRequest.class, Resource.class},
         adapters = {AssetModel.class}
 )
 public class AssetModelImpl implements AssetModel {
 
-    @Self
-    @Required
+    @Self(optional = true)
+    //@Required
     private SlingHttpServletRequest request;
 
     @OSGiService
@@ -57,9 +57,11 @@ public class AssetModelImpl implements AssetModel {
     private ComputedProperties computedProperties;
 
     @OSGiService
-    @Required
+    //@Required
     private AssetResolver assetResolver;
 
+    @Self(optional = true)
+    //@Optional
     private Resource resource;
 
     private ValueMap properties;
@@ -71,6 +73,8 @@ public class AssetModelImpl implements AssetModel {
     public void init() {
         if (request != null) {
             asset = assetResolver.resolveAsset(request);
+        } else if(resource != null) {
+            asset = resource.adaptTo(Asset.class);
         }
 
         if (asset != null) {
